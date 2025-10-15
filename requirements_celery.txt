@@ -1,0 +1,13 @@
+# Celery and Message Queue
+celery==5.3.4
+redis==5.0.1
+kombu==5.3.4
+
+# Already in your project
+playwright==1.40.0
+kafka-python==2.0.2
+flask==3.0.0
+python-dotenv==1.0.0
+
+# Optional: For monitoring
+flower==2.0.1  # Celery monitoring tool

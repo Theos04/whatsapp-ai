@@ -1,0 +1,85 @@
+# === Core Backend ===
+flask
+python-dotenv
+
+# === NLP & ML ===
+spacy
+nltk
+textblob
+clean-text
+regex
+ftfy
+sentence-transformers
+transformers
+simpletransformers
+torch
+scikit-learn
+numpy
+pandas
+datasets
+evaluate
+gensim
+
+# === Vector Search / Embeddings ===
+faiss-cpu
+chromadb
+annoy
+langchain
+llama-index
+ragatouille
+
+# === Conversational AI / Intent Detection ===
+rasa
+snips-nlu
+fasttext
+spacy-transformers
+peft
+trl
+optimum
+accelerate
+bitsandbytes
+
+# === Voice & Audio (STT + TTS) ===
+whisper
+speechrecognition
+vosk
+pydub
+librosa
+soundfile
+webrtcvad
+gtts
+pyttsx3
+tts
+
+# === Explainability / Visualization ===
+lime
+shap
+captum
+yellowbrick
+eli5
+
+# === Multi-agent / Memory Systems ===
+langgraph
+memgpt
+autogen
+crewai
+pandas-ai
+
+# === Infrastructure & Deployment ===
+fastapi
+uvicorn
+gradio
+streamlit
+redis
+rq
+celery
+docker
+mlflow
+
+# === Misc / Utility ===
+huggingface-hub
+openai
+tqdm
+scikit-metrics
+polyglot
+laserembeddings

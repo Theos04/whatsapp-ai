@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Bot Dashboard</title>
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ========================================
+       FONT IMPORTS
+       ======================================== */
+    @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&family=Roboto:wght@300;400;500;700&display=swap");
+
+    /* ========================================
+       GLOBAL RESET & BASE STYLES
+       ======================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      font-family: "Nunito", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh; /* Full viewport height */
+      overflow: hidden; /* Prevent body scrolling */
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background-attachment: fixed;
+    }
+
+    /* ========================================
+       MAIN CONTAINER - FULL SCREEN LAYOUT
+       ======================================== */
+    main {
+      display: grid;
+      grid-template-columns: 13% 87%; /* Sidebar 13%, Content 87% */
+      width: 100%;
+      height: 100vh; /* Full viewport height */
+      background: rgb(254, 254, 254);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden; /* Prevent overflow */
+    }
+
+    /* ========================================
+       SIDEBAR NAVIGATION MENU
+       ======================================== */
+    .main-menu {
+      background: linear-gradient(180deg, #5e4b8b 0%, #3d2c5c 100%);
+      padding-top: 10px;
+      font-family: "Roboto", sans-serif;
+      overflow-y: auto; /* Allow scrolling if needed */
+    }
+
+    /* Menu Title */
+    .main-menu h1 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      text-align: center;
+      margin: 20px 0 30px;
+      color: #fff;
+      font-family: "Nunito", sans-serif;
+    }
+
+    /* Navigation Item Container */
+    .nav-item {
+      position: relative;
+      display: block;
+    }
+
+    /* Navigation Link Styling */
+    .nav-item a {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1rem;
+      padding: 15px 0;
+      margin-left: 10px;
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    /* Top curved corner for active nav item */
+    .nav-item b:nth-child(1) {
+      position: absolute;
+      top: -15px;
+      height: 15px;
+      width: 100%;
+      background: #fff;
+      display: none;
+    }
+
+    .nav-item b:nth-child(1)::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-bottom-right-radius: 20px;
+      background: linear-gradient(180deg, #5e4b8b 0%, #3d2c5c 100%);
+    }
+
+    /* Bottom curved corner for active nav item */
+    .nav-item b:nth-child(2) {
+      position: absolute;
+      bottom: -15px;
+      height: 15px;
+      width: 100%;
+      background: #fff;
+      display: none;
+    }
+
+    .nav-item b:nth-child(2)::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-top-right-radius: 20px;
+      background: linear-gradient(180deg, #5e4b8b 0%, #3d2c5c 100%);
+    }
+
+    /* Show curved corners on active nav item */
+    .nav-item.active b:nth-child(1),
+    .nav-item.active b:nth-child(2) {
+      display: block;
+    }
+
+    /* Active navigation item styling */
+    .nav-item.active a {
+      color: #3d2c5c;
+      background: rgb(254, 254, 254);
+    }
+
+    /* Navigation icon sizing */
+    .nav-icon {
+      width: 60px;
+      height: 20px;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    /* Navigation text sizing */
+    .nav-text {
+      display: block;
+      width: 120px;
+      height: 20px;
+    }
+
+    /* ========================================
+       MAIN CONTENT AREA - TWO COLUMN LAYOUT
+       ======================================== */
+    .content {
+      display: grid;
+      grid-template-columns: 75% 25%; /* Left 75%, Right 25% */
+      height: 100vh; /* Full viewport height */
+      overflow: hidden; /* Prevent overflow */
+    }
+
+    /* ========================================
+       LEFT CONTENT - KPI CARDS & CHAT TABLE
+       ======================================== */
+    .left-content {
+      display: grid;
+      grid-template-rows: auto 1fr; /* Auto height for KPIs, remaining for table */
+      background: #f6f7fb;
+      padding: 20px;
+      overflow-y: auto; /* Enable scrolling */
+      height: 100vh; /* Full viewport height */
+    }
+
+    /* ========================================
+       KPI CARDS SECTION - TOP METRICS
+       ======================================== */
+    .kpi-section {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    /* Individual KPI Card */
+    .kpi-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      color: white;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Hover effect for KPI cards */
+    .kpi-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Color variants for different KPI cards */
+    .kpi-card.yellow {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .kpi-card.red {
+      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
+
+    .kpi-card.blue {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    /* KPI card title */
+    .kpi-card h3 {
+      font-size: 0.9rem;
+      font-weight: 500;
+      opacity: 0.9;
+      margin-bottom: 10px;
+    }
+
+    /* KPI card value (large number) */
+    .kpi-card .kpi-value {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    /* ========================================
+       CHAT TABLE SECTION - ACTIVE CHATS
+       ======================================== */
+    .chat-section {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 200px); /* Adjust height to fit screen */
+    }
+
+    /* Chat section header with title and filter */
+    .chat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    /* Chat section title */
+    .chat-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2d3748;
+    }
+
+    /* Filter toggle container */
+    .filter-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Checkbox styling */
+    .filter-toggle input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    /* Table wrapper with scrolling */
+    .chat-table-wrapper {
+      overflow-y: auto; /* Enable vertical scrolling */
+      flex: 1; /* Take remaining space */
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* Chat table styling */
+    .chat-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    /* Table header styling */
+    .chat-table thead {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    /* Table header cells */
+    .chat-table th {
+      padding: 15px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    /* Table data cells */
+    .chat-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    /* Table row hover effect */
+    .chat-table tbody tr {
+      transition: background 0.3s ease;
+    }
+
+    .chat-table tbody tr:hover {
+      background: #f7fafc;
+    }
+
+    /* Unread message badge */
+    .unread-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    /* Timestamp at bottom of chat section */
+    .timestamp {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #718096;
+    }
+
+    /* ========================================
+       RIGHT CONTENT - USER INFO
+       ======================================== */
+    .right-content {
+      background: #f6f7fb;
+      padding: 20px;
+      overflow-y: auto; /* Enable scrolling */
+      height: 100vh; /* Full viewport height */
+    }
+
+    /* ========================================
+       USER INFO SECTION - TOP RIGHT
+       ======================================== */
+    .user-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: white;
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    /* User name styling */
+    .user-info h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2d3748;
+    }
+
+    /* Icon container for notification and message icons */
+    .icon-container {
+      display: flex;
+      gap: 15px;
+    }
+
+    /* Icon hover effect */
+    .icon-container i {
+      font-size: 1.2rem;
+      color: #667eea;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .icon-container i:hover {
+      transform: scale(1.2);
+    }
+
+    /* ========================================
+       RESPONSIVE DESIGN - TABLET
+       ======================================== */
+    @media (max-width: 1200px) {
+      main {
+        grid-template-columns: 8% 92%; /* Narrower sidebar */
+      }
+
+      .main-menu h1 {
+        display: none; /* Hide menu title on smaller screens */
+      }
+
+      .nav-text {
+        display: none; /* Hide navigation text, keep icons only */
+      }
+
+      .kpi-section {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for KPIs */
+      }
+    }
+
+    /* ========================================
+       RESPONSIVE DESIGN - MOBILE
+       ======================================== */
+    @media (max-width: 900px) {
+      body {
+        overflow: auto; /* Allow scrolling on mobile */
+      }
+
+      main {
+        grid-template-columns: 100%; /* Single column layout */
+        height: auto; /* Auto height for mobile */
+      }
+
+      .main-menu {
+        display: none; /* Hide sidebar on mobile */
+      }
+
+      .content {
+        grid-template-columns: 100%; /* Single column layout */
+        height: auto; /* Auto height */
+      }
+
+      .left-content {
+        grid-template-rows: auto; /* Auto height */
+        height: auto; /* Auto height */
+      }
+
+      .right-content {
+        margin: 0;
+        padding: 15px;
+        height: auto; /* Auto height */
+      }
+
+      .kpi-section {
+        grid-template-columns: 1fr; /* Single column for KPIs */
+      }
+
+      .chat-section {
+        height: auto; /* Auto height */
+        min-height: 400px; /* Minimum height */
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ========================================
+       MAIN CONTAINER
+       ======================================== -->
+  <main>
+    <!-- ========================================
+         SIDEBAR NAVIGATION MENU
+         ======================================== -->
+    <nav class="main-menu">
+      <h1>AI Bot Dashboard</h1>
+      <ul>
+        <!-- Dashboard Menu Item (Active by default) -->
+        <li class="nav-item active">
+          <b></b> <!-- Top curved corner element -->
+          <b></b> <!-- Bottom curved corner element -->
+          <a href="#">
+            <i class="fa fa-house nav-icon"></i>
+            <span class="nav-text">Dashboard</span>
+          </a>
+        </li>
+
+        <!-- Chats Menu Item -->
+        <li class="nav-item">
+          <b></b>
+          <b></b>
+          <a href="#">
+            <i class="fa fa-message nav-icon"></i>
+            <span class="nav-text">Chats</span>
+          </a>
+        </li>
+
+        <!-- Personas Menu Item -->
+        <li class="nav-item">
+          <b></b>
+          <b></b>
+          <a href="/persona.html"> 
+            <i class="fa fa-robot nav-icon"></i>
+            <span class="nav-text">Personas</span>
+          </a>
+        </li>
+
+        <!-- Analytics Menu Item -->
+        <li class="nav-item">
+          <b></b>
+          <b></b>
+          <a href="#">
+            <i class="fa fa-chart-line nav-icon"></i>
+            <span class="nav-text">Analytics</span>
+          </a>
+        </li>
+
+        <!-- Settings Menu Item -->
+        <li class="nav-item">
+          <b></b>
+          <b></b>
+          <a href="#">
+            <i class="fa fa-sliders nav-icon"></i>
+            <span class="nav-text">Settings</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- ========================================
+         MAIN CONTENT AREA
+         ======================================== -->
+    <section class="content">
+      <!-- ========================================
+           LEFT CONTENT - KPI CARDS & CHAT TABLE
+           ======================================== -->
+      <div class="left-content">
+        <!-- ========================================
+             KPI CARDS SECTION - TOP METRICS
+             ======================================== -->
+        <div class="kpi-section">
+          <!-- Total Messages Sent KPI -->
+          <div class="kpi-card">
+            <h3>📤 Total Sent</h3>
+            <div class="kpi-value" id="kpiTotalSent">0</div>
+          </div>
+
+          <!-- Unread Chats Count KPI -->
+          <div class="kpi-card yellow">
+            <h3>💬 Unread Chats</h3>
+            <div class="kpi-value" id="kpiUnreadChats">0</div>
+          </div>
+
+          <!-- Unread Messages Count KPI -->
+          <div class="kpi-card red">
+            <h3>✉️ Unread Messages</h3>
+            <div class="kpi-value" id="kpiUnreadMsgs">0</div>
+          </div>
+
+          <!-- Unread Replies Count KPI -->
+          <div class="kpi-card blue">
+            <h3>↩️ Unread Replies</h3>
+            <div class="kpi-value" id="kpiUnreadReplies">0</div>
+          </div>
+        </div>
+
+        <!-- ========================================
+             CHAT TABLE SECTION - ACTIVE CHATS
+             ======================================== -->
+        <div class="chat-section">
+          <!-- Chat Section Header -->
+          <div class="chat-header">
+            <div>
+              <h2>📊 Active Chats</h2>
+              <p style="font-size: 0.9rem; color: #718096; margin-top: 5px;">Updates every 4 seconds</p>
+            </div>
+            <!-- Filter Toggle for Unread Messages -->
+            <div class="filter-toggle">
+              <input type="checkbox" id="unreadFilter" onchange="toggleUnreadFilter()">
+              <label for="unreadFilter" style="cursor: pointer; font-size: 0.95rem;">Show unread only</label>
+            </div>
+          </div>
+
+          <!-- Chat Table with Scrollable Wrapper -->
+          <div class="chat-table-wrapper">
+            <table class="chat-table">
+              <!-- Table Header -->
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Chat Name</th>
+                  <th>Last Message</th>
+                  <th>Time</th>
+                  <th>Unread</th>
+                </tr>
+              </thead>
+              <!-- Table Body (Populated by JavaScript) -->
+              <tbody id="chatTableBody">
+                <tr>
+                  <td colspan="5" style="text-align: center; padding: 40px; color: #a0aec0;">Loading data...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Timestamp Display -->
+          <div class="timestamp">
+            <strong>Last updated:</strong> <span id="timestamp">Loading...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================
+           RIGHT CONTENT - USER INFO
+           ======================================== -->
+      <div class="right-content">
+        <!-- ========================================
+             USER INFO SECTION - TOP RIGHT
+             ======================================== -->
+        <div class="user-info">
+          <!-- Notification and Message Icons -->
+          <div class="icon-container">
+            <i class="fa fa-bell" title="Notifications"></i>
+            <i class="fa fa-message" title="Messages"></i>
+          </div>
+          <!-- User Name -->
+          <h4>AI Bot Manager</h4>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================
+       JAVASCRIPT - DATA FETCHING & INTERACTIONS
+       ======================================== -->
+  <script>
+
+/* ========================================
+   GLOBAL VARIABLES
+   ======================================== */
+   let showUnreadOnly = false; // Filter state for unread messages
+
+/* ========================================
+   FETCH DATA FUNCTION - Get chat data from API
+   ======================================== */
+async function fetchData() {
+  try {
+    // Fetch chat list from API endpoint
+    const res = await fetch("/api/chats/list");
+    const data = await res.json();
+
+    // Get DOM elements for table and KPI values
+    const tableBody = document.getElementById("chatTableBody");
+    const totalSentEl = document.getElementById("kpiTotalSent");
+    const totalUnreadChatsEl = document.getElementById("kpiUnreadChats");
+    const totalUnreadMsgEl = document.getElementById("kpiUnreadMsgs");
+    const totalUnreadReplyEl = document.getElementById("kpiUnreadReplies");
+
+    // Clear existing table content
+    tableBody.innerHTML = "";
+
+    // Handle API errors
+    if (data.error) {
+      tableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: #e53e3e;">${data.error}</td></tr>`;
+      return;
+    }
+
+    // Filter chats based on unread filter state
+    const filteredChats = showUnreadOnly
+      ? data.filter(chat => chat.unread && chat.unread !== "0")
+      : data;
+
+    // Initialize KPI counters
+    let totalSent = 0;
+    let unreadChats = 0;
+    let unreadMsgs = 0;
+    let unreadReplies = 0;
+
+    // Loop through filtered chats and populate table
+    filteredChats.forEach((chat, i) => {
+      // Extract unread count safely from string
+      let unreadCount = 0;
+      if (chat.unread) {
+        const match = chat.unread.match(/\d+/); // extract number from string
+        if (match) unreadCount = parseInt(match[0], 10);
+      }
+
+      // Create unread badge if chat has unread messages
+      const unreadDisplay = unreadCount > 0
+        ? `<span class="unread-badge">${unreadCount}</span>`
+        : '';
+
+      // Create table row HTML
+      const row = `
+        <tr>
+          <td>${i + 1}</td>
+          <td><strong>${chat.name || 'Unknown'}</strong></td>
+          <td>${chat.lastMsg || ''}</td>
+          <td>${chat.time || ''}</td>
+          <td>${unreadDisplay}</td>
+        </tr>`;
+
+      // Insert row into table
+      tableBody.insertAdjacentHTML("beforeend", row);
+
+      // Update KPI counters if chat has unread messages
+      if (unreadCount > 0) {
+        unreadChats++;
+        unreadMsgs += unreadCount;
+        if (chat.lastMsg?.toLowerCase().includes("reply")) {
+          unreadReplies++;
+        }
+      }
+    });
+
+    // Update KPI display values
+    totalSentEl.innerText = totalSent;
+    totalUnreadChatsEl.innerText = unreadChats;
+    totalUnreadMsgEl.innerText = unreadMsgs;
+    totalUnreadReplyEl.innerText = unreadReplies;
+
+    // Update timestamp
+    document.getElementById("timestamp").innerText = new Date().toLocaleTimeString();
+  } catch (error) {
+    // Handle fetch errors
+    console.error("Error fetching data:", error);
+    const tableBody = document.getElementById("chatTableBody");
+    tableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: #e53e3e;">Error loading data</td></tr>`;
+  }
+}
+
+/* ========================================
+   TOGGLE UNREAD FILTER - Show/hide unread messages
+   ======================================== */
+function toggleUnreadFilter() {
+  showUnreadOnly = !showUnreadOnly; // Toggle filter state
+  document.getElementById("unreadFilter").checked = showUnreadOnly; // Update checkbox
+  fetchData(); // Refresh data with new filter
+}
+
+/* ========================================
+   NAVIGATION MENU CLICK HANDLERS
+   ======================================== */
+const navItems = document.querySelectorAll(".nav-item");
+navItems.forEach((navItem) => {
+  navItem.addEventListener("click", () => {
+    // Remove active class from all nav items
+    navItems.forEach((item) => {
+      item.className = "nav-item";
+    });
+    // Add active class to clicked nav item
+    navItem.className = "nav-item active";
+  });
+});
+
+/* ========================================
+   INITIALIZE - Auto-refresh and initial load
+   ======================================== */
+setInterval(fetchData, 4000); // Refresh data every 4 seconds
+window.onload = fetchData; // Load data on page load
+
+
+</script>
+</body>
+</html>

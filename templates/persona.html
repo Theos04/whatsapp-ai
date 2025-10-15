@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+    <style>
+        * { padding: 0; margin: 0; box-sizing: border-box; }
+        :root {
+            --white: #ffffff;
+            --black: #000000;
+            --blue-1: #CCC4ED;
+            --blue-2: rgba(187, 177, 231, 0.62);
+            --blue-3: #826DFF;
+            --orange-1: #9A7723;
+            --orange-2: #EAA742;
+            --orange-3: #FFE0B7;
+            --green-1: #038C36;
+            --green-2: #04BC49;
+            --green-3: #D4FFE4;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--blue-2);
+            background: #0a0a0a;
+            overflow-x: hidden;
+        }
+        
+        .container { padding: 0 32px; margin: 0 auto; max-width: 2560px; }
+        
+        /* Header */
+        .header {
+            position: fixed;
+            width: 100%;
+            padding-top: 40px;
+            z-index: 99;
+            transition: all 0.3s;
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-logo h2 {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--blue-1);
+            letter-spacing: 2px;
+        }
+        
+        .header-menu ul {
+            display: flex;
+            gap: 60px;
+            list-style: none;
+        }
+        
+        .header-menu ul li a {
+            font-size: 16px;
+            text-transform: uppercase;
+            color: var(--blue-2);
+            text-decoration: none;
+            transition: 0.3s;
+            letter-spacing: 1px;
+        }
+        
+        .header-menu ul li a:hover,
+        .header-menu ul li.active a {
+            color: var(--blue-1);
+        }
+        
+        .header.orange-theme .header-logo h2,
+        .header.orange-theme .header-menu ul li a:hover,
+        .header.orange-theme .header-menu ul li.active a {
+            color: var(--orange-2);
+        }
+        
+        .header.orange-theme .header-menu ul li a {
+            color: var(--orange-1);
+        }
+        
+        .header.green-theme .header-logo h2,
+        .header.green-theme .header-menu ul li a:hover,
+        .header.green-theme .header-menu ul li.active a {
+            color: var(--green-2);
+        }
+        
+        .header.green-theme .header-menu ul li a {
+            color: var(--green-1);
+        }
+        
+        /* Banner Section */
+        .banner-section {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .banner-slide {
+            display: flex !important;
+            align-items: center;
+            min-height: 100vh;
+            padding: 120px 32px 60px;
+            background-size: cover;
+            background-position: center;
+            gap: 20px;
+        }
+        
+        .banner-label {
+            width: 7%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .banner-label h6 {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: 12px;
+            letter-spacing: 12px;
+            color: var(--blue-2);
+        }
+        
+        .banner-image {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+        
+        .banner-image img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            filter: drop-shadow(0 0 30px rgba(130, 109, 255, 0.5));
+            transition: transform 0.5s ease;
+        }
+        
+        .banner-content {
+            width: 33%;
+            padding-top: 40px;
+        }
+        
+        .banner-content h5 {
+            font-size: 16px;
+            letter-spacing: 8px;
+            color: var(--blue-2);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        
+        .banner-content h1 {
+            font-size: 72px;
+            font-weight: bold;
+            line-height: 1.2;
+            background: linear-gradient(180deg, #6D4BE7 0%, #998BE5 90%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 28px;
+        }
+        
+        .info-box {
+            border: 1px solid var(--blue-3);
+            background: linear-gradient(180deg, rgba(68, 45, 142, 0.20) 0%, rgba(82, 51, 180, 0.09) 100%);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .info-box h5 {
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        
+        .info-box p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--blue-2);
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .skill-item {
+            border: 1px solid var(--blue-3);
+            background: linear-gradient(180deg, rgba(68, 45, 142, 0.20) 0%, rgba(82, 51, 180, 0.09) 100%);
+            padding: 15px;
+            text-align: center;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--blue-1);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 18px 40px;
+            background: linear-gradient(135deg, var(--blue-3), #5a47cc);
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(130, 109, 255, 0.4);
+        }
+        
+        /* Navigation Dots */
+        .nav-dots {
+            position: fixed;
+            right: 32px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+        }
+        
+        .nav-dots div {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .nav-dots div.active {
+            background: var(--blue-3);
+            box-shadow: 0 0 10px var(--blue-3);
+        }
+        
+        /* Theme Variations */
+        .banner-slide.orange-theme .banner-label h6,
+        .banner-slide.orange-theme .banner-content h5 {
+            color: var(--orange-1);
+        }
+        
+        .banner-slide.orange-theme .banner-content h1 {
+            background: linear-gradient(180deg, #DFA650 0%, #FFCA79 90%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .banner-slide.orange-theme .info-box,
+        .banner-slide.orange-theme .skill-item {
+            border-color: #6B5536;
+            background: linear-gradient(180deg, rgba(101, 75, 37, 0.13) 0%, rgba(246, 186, 98, 0.05) 100%);
+        }
+        
+        .banner-slide.orange-theme .info-box p,
+        .banner-slide.orange-theme .skill-item {
+            color: var(--orange-1);
+        }
+        
+        .banner-slide.orange-theme .banner-image img {
+            filter: drop-shadow(0 0 30px rgba(234, 167, 66, 0.5));
+        }
+        
+        .banner-slide.green-theme .banner-label h6,
+        .banner-slide.green-theme .banner-content h5 {
+            color: var(--green-1);
+        }
+        
+        .banner-slide.green-theme .banner-content h1 {
+            background: linear-gradient(180deg, #04BC49 0%, #038C36 90%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .banner-slide.green-theme .info-box,
+        .banner-slide.green-theme .skill-item {
+            border-color: var(--green-1);
+            background: linear-gradient(180deg, rgba(2, 157, 56, 0.08) 0%, rgba(6, 167, 61, 0.05) 100%);
+        }
+        
+        .banner-slide.green-theme .info-box p,
+        .banner-slide.green-theme .skill-item {
+            color: var(--green-1);
+        }
+        
+        .banner-slide.green-theme .banner-image img {
+            filter: drop-shadow(0 0 30px rgba(4, 188, 73, 0.5));
+        }
+        
+        /* Rain Effect */
+        .rain {
+            position: absolute;
+            width: 2px;
+            height: 50px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.5));
+            animation: fall linear infinite;
+            opacity: 0.3;
+        }
+        
+        @keyframes fall {
+            from { top: -50px; opacity: 0.5; }
+            to { top: 100%; opacity: 0; }
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .banner-slide {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .banner-label,
+            .banner-image,
+            .banner-content {
+                width: 100%;
+            }
+            
+            .banner-label h6 {
+                writing-mode: horizontal-tb;
+            }
+            
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header-menu ul {
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <div class="header-logo">
+                    <h2>MY PERSONAS</h2>
+                </div>
+                <nav class="header-menu">
+                    <ul>
+                        <li class="active"><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Rain Effect -->
+    <div id="rain-container"></div>
+
+    <!-- Banner Section -->
+    <section class="banner-section">
+        <div class="banner-slider">
+            <!-- Persona 1 - Blue Theme -->
+            <div class="banner-slide blue-theme" style="background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);">
+                <div class="banner-label">
+                    <h6>CREATIVE DESIGNER</h6>
+                </div>
+                <div class="banner-image">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop" alt="Persona 1">
+                </div>
+                <div class="banner-content">
+                    <h5>Designer</h5>
+                    <h1>Alex Chen</h1>
+                    <div class="info-box">
+                        <h5>PROFILE</h5>
+                        <p>A visionary creative designer with a passion for minimalist aesthetics and user-centered design. Specializes in creating memorable brand experiences through thoughtful design solutions.</p>
+                    </div>
+                    <div class="skills-grid">
+                        <div class="skill-item">UI Design</div>
+                        <div class="skill-item">Branding</div>
+                        <div class="skill-item">Typography</div>
+                        <div class="skill-item">Illustration</div>
+                    </div>
+                    <a href="#" class="cta-button">View Portfolio</a>
+                </div>
+            </div>
+
+            <!-- Persona 2 - Orange Theme -->
+            <div class="banner-slide orange-theme" style="background: linear-gradient(135deg, #0a0a0a 0%, #2e1a0a 100%);">
+                <div class="banner-label">
+                    <h6>TECH INNOVATOR</h6>
+                </div>
+                <div class="banner-image">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=800&fit=crop" alt="Persona 2">
+                </div>
+                <div class="banner-content">
+                    <h5>Developer</h5>
+                    <h1>Sarah Kim</h1>
+                    <div class="info-box">
+                        <h5>PROFILE</h5>
+                        <p>Full-stack developer and tech enthusiast who transforms complex problems into elegant solutions. Driven by innovation and committed to writing clean, efficient code.</p>
+                    </div>
+                    <div class="skills-grid">
+                        <div class="skill-item">JavaScript</div>
+                        <div class="skill-item">React</div>
+                        <div class="skill-item">Node.js</div>
+                        <div class="skill-item">Python</div>
+                    </div>
+                    <a href="#" class="cta-button">View Portfolio</a>
+                </div>
+            </div>
+
+            <!-- Persona 3 - Green Theme -->
+            <div class="banner-slide green-theme" style="background: linear-gradient(135deg, #0a0a0a 0%, #0a2e1a 100%);">
+                <div class="banner-label">
+                    <h6>MARKETING GURU</h6>
+                </div>
+                <div class="banner-image">
+                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&h=800&fit=crop" alt="Persona 3">
+                </div>
+                <div class="banner-content">
+                    <h5>Strategist</h5>
+                    <h1>Maya Patel</h1>
+                    <div class="info-box">
+                        <h5>PROFILE</h5>
+                        <p>Strategic marketing professional with expertise in digital campaigns and brand storytelling. Combines data-driven insights with creative thinking to deliver results.</p>
+                    </div>
+                    <div class="skills-grid">
+                        <div class="skill-item">SEO</div>
+                        <div class="skill-item">Content</div>
+                        <div class="skill-item">Analytics</div>
+                        <div class="skill-item">Social Media</div>
+                    </div>
+                    <a href="#" class="cta-button">View Portfolio</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation Dots -->
+    <div class="nav-dots">
+        <div class="active"></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script>
+        // Rain Effect
+        const rainContainer = document.getElementById('rain-container');
+        for (let i = 0; i < 50; i++) {
+            const rain = document.createElement('div');
+            rain.className = 'rain';
+            rain.style.left = Math.random() * 100 + '%';
+            rain.style.animationDuration = Math.random() * 3 + 2 + 's';
+            rain.style.animationDelay = Math.random() * 5 + 's';
+            rainContainer.appendChild(rain);
+        }
+
+        // Slider
+        $(document).ready(function() {
+            $('.banner-slider').slick({
+                infinite: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: false,
+                dots: false,
+                fade: true,
+                speed: 800,
+                adaptiveHeight: true
+            });
+
+            // Navigation dots
+            $('.nav-dots div').click(function() {
+                const index = $(this).index();
+                $('.banner-slider').slick('slickGoTo', index);
+            });
+
+            // Update nav dots and header theme
+            $('.banner-slider').on('afterChange', function(event, slick, currentSlide) {
+                $('.nav-dots div').removeClass('active');
+                $('.nav-dots div').eq(currentSlide).addClass('active');
+                
+                const header = $('.header');
+                header.removeClass('orange-theme green-theme');
+                
+                if (currentSlide === 1) {
+                    header.addClass('orange-theme');
+                } else if (currentSlide === 2) {
+                    header.addClass('green-theme');
+                }
+            });
+
+            // Click nav dots to navigate
+            $('.nav-dots div').click(function() {
+                const index = $(this).index();
+                $('.banner-slider').slick('slickGoTo', index);
+            });
+        });
+    </script>
+</body>
+</html>

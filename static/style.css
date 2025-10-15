@@ -1,0 +1,29 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #007978, #4FC6A5);
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .landing, .container {
+    margin-top: 15%;
+  }
+  
+  .btn {
+    background: white;
+    color: #007978;
+    border: none;
+    padding: 12px 25px;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .btn:hover {
+    background: #FCD9BE;
+    color: #007978;
+  }
+  

@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Playwright artifacts
+playwright-report/
+
+# Exported chats
+exported_chats/
+
+# Celery, Redis or logs
+*.log
+*.db
+
+# OS files
+.DS_Store
+Thumbs.db

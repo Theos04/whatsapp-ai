@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harsh Lifesciences WhatsApp Automation</title>
+  <!-- UX4G CSS via CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ux4g@latest/dist/ux4g.min.css">
+  <!-- GSAP and ScrollTrigger via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <!-- Google Fonts for Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #0D0D0D;
+      color: #b6b6b6;
+      overflow-x: hidden;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 200vh;
+      padding: 5% 10%;
+      box-sizing: border-box;
+    }
+    .text {
+      font-size: 8vw;
+      letter-spacing: -0.01em;
+      line-height: 100%;
+      margin: 0;
+      width: 100%;
+      color: rgba(182, 182, 182, 0.2);
+      background: linear-gradient(to right, #25d366, #25d366) no-repeat;
+      -webkit-background-clip: text;
+      background-clip: text;
+      background-size: 0%;
+      transition: background-size cubic-bezier(0.1, 0.5, 0.5, 1) 0.5s;
+      border-bottom: 1px solid #2F2B28;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    span {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: #25d366;
+      color: #0D0D0D;
+      clip-path: polygon(0 50%, 100% 50%, 100% 50%, 0 50%);
+      transform-origin: center;
+      transition: all cubic-bezier(0.1, 0.5, 0.5, 1) 0.4s;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .text:hover > span {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+      font-weight: 600;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background-color: #25d366;
+      color: #0D0D0D;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1.2rem;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      margin-top: 2rem;
+    }
+    .btn:hover {
+      background-color: #20b958;
+      transform: scale(1.05);
+    }
+    @media (max-width: 768px) {
+      .text {
+        font-size: 12vw;
+      }
+      .container {
+        padding: 5% 5%;
+      }
+      .btn {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="text">WHATSAPP<span>AUTOMATION</span></h1>
+    <h1 class="text">SEND MESSAGES<span>INSTANTLY</span></h1>
+    <h1 class="text">AUTO-REPLY<span>SMARTLY</span></h1>
+    <h1 class="text">MANAGE CAMPAIGNS<span>EFFORTLESSLY</span></h1>
+    <h1 class="text">TRY NOW<span><a href="/login" class="login-link">LOGIN TO START</a></span></h1>
+    <a href="/login" class="btn">🚀 Get Started with Harsh Lifesciences</a>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+        console.error('GSAP or ScrollTrigger failed to load.');
+        return;
+      }
+      gsap.registerPlugin(ScrollTrigger);
+      const textElements = gsap.utils.toArray('.text');
+      textElements.forEach(text => {
+        gsap.to(text, {
+          backgroundSize: '100%',
+          ease: 'none',
+          scrollTrigger: {
+            trigger: text,
+            start: 'center 80%',
+            end: 'center 20%',
+            scrub: true,
+          },
+        });
+      });
+    });
+  </script>
+</body>
+</html>
